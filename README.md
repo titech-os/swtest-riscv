@@ -1,13 +1,13 @@
 swtest-riscv
 ------
-RISC-V版xv6の `swtch` の動作を理解するためのサンプルコード
+RISC-V版xv6の`swtch`の動作を理解するためのサンプルコード
 
 ## 必要なもの
 
-* RISC-V用ツールチェイン
-* RISC-Vシミュレータ(Spike)
+* [RISC-V用GNUツールチェイン](https://github.com/riscv/riscv-gnu-toolchain)
+* [RISC-Vシミュレータ(Spike)](https://github.com/riscv/riscv-isa-sim) （[Proxy Kernel](https://github.com/riscv/riscv-pk)も必要）
 
-macOSの場合，HomeBrewを使って以下のようにインストールできる．
+macOSの場合，以上はHomebrewを使って簡単にインストールできる．
 
 ```sh
 $ brew tap riscv/riscv
@@ -38,4 +38,6 @@ bar: 6
 baz: 9
 ...
 ```
+
+
 
