@@ -1,7 +1,7 @@
-SRCS = swtest.c
+SRCS = swtest.c schtest.c
 ASM_SRCS = swtch.S
 OBJS = $(SRCS:%.c=%.o) $(ASM_SRCS:%.S=%.o)
-EXES = swtest
+EXES = swtest schtest
 
 CC = riscv64-unknown-elf-gcc
 CPPFLAGS =
@@ -18,12 +18,15 @@ SPIKE_OPTS = pk
 
 .PHONY: build run clean allclean
 
-build: swtest
+build: $(EXES)
 
 run: swtest
 	$(SPIKE) $(SPIKE_OPTS) $<
 
 swtest: swtest.o swtch.o
+	$(CC) $(CFLAGS) $(LDFLAGS) -o $@ $^
+
+schtest: schtest.o swtch.o
 	$(CC) $(CFLAGS) $(LDFLAGS) -o $@ $^
 
 clean:
