@@ -1,30 +1,6 @@
 #include <stdio.h>
 
-// from xv6-riscv/kernel/types.h
-typedef unsigned long uint64;
-
-// from xv6-riscv/kernel/proc.h
-struct context {
-  uint64 ra;
-  uint64 sp;
-
-  // callee-saved
-  uint64 s0;
-  uint64 s1;
-  uint64 s2;
-  uint64 s3;
-  uint64 s4;
-  uint64 s5;
-  uint64 s6;
-  uint64 s7;
-  uint64 s8;
-  uint64 s9;
-  uint64 s10;
-  uint64 s11;
-};
-
-// from xv6-riscv/kernel/defs.h
-void swtch(struct context*, struct context*);
+#include "defs.h"
 
 struct context sch_context;
 struct context foo_context;
@@ -64,14 +40,14 @@ void baz() {
 }
 
 int main() {
-    // setting up initial contexts of bar and baz
+    // setting up initial contexts
     foo_context.ra = (uint64)foo;
     foo_context.sp = (uint64)(foo_stack + STACK_DEPTH);
     bar_context.ra = (uint64)bar;
     bar_context.sp = (uint64)(bar_stack + STACK_DEPTH);
-    baz_context.ra = (uint64)baz;
+    baz_context.ra = (uint64)bar;
     baz_context.sp = (uint64)(baz_stack + STACK_DEPTH);
-    
+    // start scheduling
     for (;;) {
         swtch(&sch_context, &foo_context);
         swtch(&sch_context, &bar_context);

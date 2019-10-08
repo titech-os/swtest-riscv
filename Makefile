@@ -1,3 +1,4 @@
+HDRS = defs.h
 SRCS = swtest.c schtest.c
 ASM_SRCS = swtch.S
 OBJS = $(SRCS:%.c=%.o) $(ASM_SRCS:%.S=%.o)
@@ -10,7 +11,7 @@ LDFLAGS =
 SPIKE = spike
 SPIKE_OPTS = pk
 
-%.o: %.c
+%.o: %.c $(HDRS)
 	$(CC) $(CFLAGS) $(CPPFLAGS) -c -o $@ $<
 
 %.o: %.S
@@ -20,7 +21,10 @@ SPIKE_OPTS = pk
 
 build: $(EXES)
 
-run: swtest
+run-swtest: swtest
+	$(SPIKE) $(SPIKE_OPTS) $<
+
+run-schtest: schtest
 	$(SPIKE) $(SPIKE_OPTS) $<
 
 swtest: swtest.o swtch.o
