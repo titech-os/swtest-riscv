@@ -5,7 +5,7 @@ EXES = swtest
 
 CC = riscv64-unknown-elf-gcc
 CPPFLAGS =
-CFLAGS = -Wall -Wextra -Werror -g
+CFLAGS = -std=c11 -pedantic -Wall -Wextra -Werror -g
 LDFLAGS =
 SPIKE = spike
 SPIKE_OPTS = pk
