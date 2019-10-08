@@ -1,9 +1,9 @@
 #include <stdio.h>
 
-// taken from types.h
+// from xv6-riscv/kernel/types.h
 typedef unsigned long uint64;
 
-// taken from proc.h
+// from xv6-riscv/kernel/proc.h
 struct context {
   uint64 ra;
   uint64 sp;
@@ -23,15 +23,12 @@ struct context {
   uint64 s11;
 };
 
-// taken from defs.h
+// from xv6-riscv/kernel/defs.h
 void swtch(struct context*, struct context*);
 
 struct context foo_context;
 struct context bar_context;
 struct context baz_context;
-struct context *foo_ctx = &foo_context;
-struct context *bar_ctx = &bar_context;
-struct context *baz_ctx = &baz_context;
 
 #define STACK_DEPTH 512
 uint64 bar_stack[STACK_DEPTH];
@@ -39,39 +36,38 @@ uint64 baz_stack[STACK_DEPTH];
 
 void foo() {
     uint64 c = 0;
-    while (1) {
+    for (;;) {
         printf("foo : %lu\n", c);
-        swtch(foo_ctx, bar_ctx);
+        swtch(&foo_context, &bar_context);
         c += 1;
     }
 }
 
 void bar() {
     uint64 c = 0;
-    while (1) {
+    for (;;) {
         printf("bar : %lu\n", c);
-        swtch(bar_ctx, baz_ctx);
+        swtch(&bar_context, &baz_context);
         c += 2;
     }
 }
 
 void baz() {
     uint64 c = 0;
-    while (1) {
+    for (;;) {
         printf("baz : %lu\n", c);
-        swtch(baz_ctx, foo_ctx);
+        swtch(&baz_context, &foo_context);
         c += 3;
     }
 }
 
 int main() {
     // setting up initial contexts of bar and baz
-    bar_ctx->ra = (uint64)bar;
-    bar_ctx->sp = (uint64)(bar_stack + STACK_DEPTH);
-    baz_ctx->ra = (uint64)baz;
-    baz_ctx->sp = (uint64)(baz_stack + STACK_DEPTH);
+    bar_context.ra = (uint64)bar;
+    bar_context.sp = (uint64)(bar_stack + STACK_DEPTH);
+    baz_context.ra = (uint64)baz;
+    baz_context.sp = (uint64)(baz_stack + STACK_DEPTH);
     // start from foo
     foo();
     return 0;
 }
-
