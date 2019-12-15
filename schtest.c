@@ -45,7 +45,7 @@ int main() {
     foo_context.sp = (uint64)(foo_stack + STACK_DEPTH);
     bar_context.ra = (uint64)bar;
     bar_context.sp = (uint64)(bar_stack + STACK_DEPTH);
-    baz_context.ra = (uint64)bar;
+    baz_context.ra = (uint64)baz;
     baz_context.sp = (uint64)(baz_stack + STACK_DEPTH);
     // start scheduling
     for (;;) {
